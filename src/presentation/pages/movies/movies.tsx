@@ -1,17 +1,29 @@
 import Grid from '@mui/material/Grid';
 import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch } from 'react-redux';
 
+
+import { fetchMovies } from "./store";
 import { XepCarousel, XepHero } from './components';
-import { BASE_IMG_URL } from '../../../main/constants';
-import { useMovies } from './hooks';
+import img from '../../../assets/img/hero.png'
 
 export default function Movies() {
-  const movies = useMovies();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchMoviesThunk = fetchMovies();
+    dispatch(fetchMoviesThunk);
+  }, [dispatch]);
+
   const favoritesMovies = useSelector((state: any) => state.movies.favorites);
+  const upcomingMovies = useSelector((state: any) => state.movies.upcoming);
+  const popularMovies = useSelector((state: any) => state.movies.popular);
+  const topRatedMovies = useSelector((state: any) => state.movies.top_rated);
 
   return (
     <>
-      <XepHero src={`${BASE_IMG_URL}iTyh3hqTUjiRqQo8Uz1w1KtQti9.jpg`}></XepHero>
+      <XepHero src={img}></XepHero>
       <main style={{ padding: "150px 10%" }}>
         <Grid container rowSpacing={5}>
           { !!favoritesMovies.length &&
@@ -20,13 +32,13 @@ export default function Movies() {
             </Grid>
           }
           <Grid item xs={12}>
-            <XepCarousel movies={movies.popular} title="Más populares" subtitle="Nullam sapien arcu tempor" />
+            <XepCarousel movies={popularMovies} title="Más populares" subtitle="Nullam sapien arcu tempor" />
           </Grid>
           <Grid item xs={12}>
-            <XepCarousel movies={movies.topRated} title="Mejor evaluadas" subtitle="Phasellus mi urna euismod" />
+            <XepCarousel movies={topRatedMovies} title="Mejor evaluadas" subtitle="Phasellus mi urna euismod" />
           </Grid>
           <Grid item xs={12}>
-            <XepCarousel movies={movies.upcoming} title="Proximos eventos" subtitle="Morbi ac turpis lacus" />
+            <XepCarousel movies={upcomingMovies} title="Proximos eventos" subtitle="Morbi ac turpis lacus" />
           </Grid>
         </Grid>
       </main>
