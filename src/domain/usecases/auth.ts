@@ -1,12 +1,23 @@
 import { webStorage } from "../../infrastructure/storage";
 
-export function auth(user: any) {
-  const users = webStorage().get('users');
-  const parsedUsers = JSON.parse(users);
-  const isAuth = !!parsedUsers.find((item: any) =>
-    item.email === user.email && item.password === user.password
-  );
-  isAuth && webStorage().set('isAuth', true);
+export async function authenticate(user: any) {
+  const authPromise = new Promise((resolve, reject) => {
+    const users = webStorage().get('users');
+    const userAuthenticated = users.find((item: any) =>
+      item.email === user.email && item.password === user.password
+    );
 
-  return isAuth;
+    if(!!userAuthenticated) {
+      resolve({ status: 200, data: userAuthenticated });
+      webStorage().set('isAuth', true);
+    } else {
+      reject({ errorMessage: '', status: 400 });
+    }
+  });
+  try {
+    const response = await authPromise;
+    return response;
+  } catch (error) {
+    throw (error);
+  }
 }

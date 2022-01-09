@@ -7,21 +7,29 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { XepButton } from '../../components';
-import { auth, signOut } from '../../../domain/usecases';
+import { authenticate } from '../../../domain/usecases';
+import { signinFlow } from './store';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function Signin() {
   const theme = createTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state: any) => state.user.isAuthenticated);
   const [form, setFormState] = useState({
     email: '',
     password: ''
   });
-
-  signOut();
+  
+  useEffect(() => {
+    if(isAuth) {
+      navigate('/', { replace: false });
+    }
+  }, [isAuth, navigate]);
 
   function goToSignup() {
     navigate('/signup');
@@ -29,9 +37,8 @@ export default function Signin() {
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    if(auth(form)) {
-      navigate('/', {replace: false});
-    }
+    const signin = signinFlow(() => authenticate(form));
+    dispatch(signin);
   }
 
   function handleInput(e: any) {
