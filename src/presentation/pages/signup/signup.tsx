@@ -63,8 +63,8 @@ export default function Signup() {
             label="Nombre de usuario"
             name="username"
             autoComplete="username"
-            value={form.username}
             autoFocus
+            value={form.username}
             onChange={handleInput}
           />
           <TextField
@@ -75,7 +75,6 @@ export default function Signup() {
             label="Correo Electrónico"
             name="email"
             autoComplete="email"
-            autoFocus
             value={form.email}
             onChange={handleInput}
           />
