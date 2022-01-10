@@ -11,7 +11,7 @@ export async function authenticate(user: any) {
       resolve({ status: 200, data: userAuthenticated });
       webStorage().set('isAuth', true);
     } else {
-      reject({ errorMessage: '', status: 400 });
+      reject({ errorMessage: 'Incorrect username or password', status: 400 });
     }
   });
   try {
