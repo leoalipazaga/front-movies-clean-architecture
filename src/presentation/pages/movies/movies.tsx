@@ -4,15 +4,16 @@ import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 
 
+import img from '../../../assets/img/hero.png'
 import { fetchMovies } from "./store";
 import { XepCarousel, XepHero } from './components';
-import img from '../../../assets/img/hero.png'
+import { getMoviesByCategory } from '../../../domain/usecases';
 
 export default function Movies() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchMoviesThunk = fetchMovies();
+    const fetchMoviesThunk = fetchMovies(getMoviesByCategory);
     dispatch(fetchMoviesThunk);
   }, [dispatch]);
 
