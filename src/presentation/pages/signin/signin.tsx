@@ -8,18 +8,19 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
-
-import { XepButton } from '../../components';
-import { authenticate } from '../../../domain/usecases';
-import { signinFlow } from './store';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { XepButton } from '../../components';
+import { XepAlert } from '../../../presentation/components';
+import { authenticate } from '../../../domain/usecases';
+import { signinFlow } from './store';
 
 export default function Signin() {
   const theme = createTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuth = useSelector((state: any) => state.user.isAuthenticated);
+  const error = useSelector((state: any) => state.user.error);
   const [form, setFormState] = useState({
     email: '',
     password: ''
@@ -48,6 +49,7 @@ export default function Signin() {
     setFormState({...form, [name]: value});
   }
   return (<ThemeProvider theme={theme}>
+    {error && <XepAlert type={'error'} message={error.errorMessage} />}
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
