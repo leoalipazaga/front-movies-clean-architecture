@@ -6,37 +6,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
 
 import { XepButton } from '../../components';
-import { addAccount } from '../../../domain/usecases';
+import { useSignupViewController } from './controller';
 
 
 export default function Signup() {
   const theme = createTheme();
-  const navigate = useNavigate();
-  const [form, setFormState] = useState({
-    email: '',
-    username: '',
-    password: ''
-  });
+  const { formik, goToSignin } = useSignupViewController();
 
-  function goToSignin() {
-    navigate('/signin');
-  }
-
-  function handleInput(e: any) {
-    const name = e.target.name;
-    const value = e.target.value;
-    setFormState({...form, [name]: value});
-  }
-
-
-  function handleSubmit(e: any) {
-    e.preventDefault();
-    addAccount(form);
-  }
   return (<ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -54,7 +32,7 @@ export default function Signup() {
         <Typography component="h1" variant="subtitle1">
           ¡Disfruta de una experiencia personalizada!
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -64,8 +42,10 @@ export default function Signup() {
             name="username"
             autoComplete="username"
             autoFocus
-            value={form.username}
-            onChange={handleInput}
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            helperText={formik.touched.username && formik.errors.username}
+            error={formik.touched.username && Boolean(formik.errors.username)}
           />
           <TextField
             margin="normal"
@@ -75,8 +55,10 @@ export default function Signup() {
             label="Correo Electrónico"
             name="email"
             autoComplete="email"
-            value={form.email}
-            onChange={handleInput}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            helperText={formik.touched.email && formik.errors.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
           />
           <TextField
             margin="normal"
@@ -87,8 +69,10 @@ export default function Signup() {
             type="password"
             id="password"
             autoComplete="current-password"
-            value={form.password}
-            onChange={handleInput}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            helperText={formik.touched.password && formik.errors.password}
+            error={formik.touched.password && Boolean(formik.errors.password)}
           />
           <XepButton fullWidth sx={{ mt: 3, mb: 2 }} type="submit">
             Registrarse
