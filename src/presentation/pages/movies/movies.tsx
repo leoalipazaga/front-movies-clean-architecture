@@ -1,26 +1,10 @@
 import Grid from '@mui/material/Grid';
-import { useSelector } from 'react-redux';
-import { useEffect } from "react";
-import { useDispatch } from 'react-redux';
 
-
-import img from '../../../assets/img/hero.png'
-import { fetchMovies } from "./store";
 import { XepCarousel, XepHero } from './components';
-import { getMoviesByCategory } from '../../../domain/usecases';
+import { useMoviesViewController } from './controller';
 
 export default function Movies() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchMoviesThunk = fetchMovies(getMoviesByCategory);
-    dispatch(fetchMoviesThunk);
-  }, [dispatch]);
-
-  const favoritesMovies = useSelector((state: any) => state.movies.favorites);
-  const upcomingMovies = useSelector((state: any) => state.movies.upcoming);
-  const popularMovies = useSelector((state: any) => state.movies.popular);
-  const topRatedMovies = useSelector((state: any) => state.movies.top_rated);
+  const { favoritesMovies, upcomingMovies, popularMovies, topRatedMovies, img } = useMoviesViewController();
 
   return (
     <>
