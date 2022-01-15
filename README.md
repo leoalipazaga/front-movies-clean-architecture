@@ -4,10 +4,14 @@ This project was bootstrapped with:
 - Material UI
 - Axios
 - React Router DOM
+- Redux
 - Redux Toolkit
 - Based on Clean Architecture
 - Typescript
 - TMDB API
+- Formik
+- Yup 
+- React Material UI Carousel
 
 ## Project structure
 - Domain: Holds two folders `adapter` and `usecases`. The `adapter` maps data from API to UI. The `usecases` is where the business rules are applied and implemented.
