@@ -1,9 +1,11 @@
-import { HttpRequest, HttpPostMethod, HttpPutMethod, HttpGetMethod } from '../../protocols/http';
+import { HttpPostMethod, HttpPutMethod, HttpGetMethod } from '../../protocols/http';
 
 import axios, { AxiosRequestConfig } from 'axios';
+import { TMDB_KEY } from '../../main/constants';
 
-export function configHttpRequest(mainConfig: HttpRequest): AxiosRequestConfig {
+export function configHttpRequest(mainConfig: any = {}): AxiosRequestConfig {
   return {
+    params: { api_key: TMDB_KEY },
     timeout: 5000,
     headers: {
       Authorization: `Bearer ${(mainConfig.headers && mainConfig.headers.token) || ''}`,
@@ -12,7 +14,7 @@ export function configHttpRequest(mainConfig: HttpRequest): AxiosRequestConfig {
   }
 }
 
-export const fetchios = {
+export const fetchios: any = {
   put({ url, body, httpConfig }: HttpPutMethod) {
     return axios.put(url, body, configHttpRequest(httpConfig));
   },

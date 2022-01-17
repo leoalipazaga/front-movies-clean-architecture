@@ -30,6 +30,8 @@ export default function XepCarousel(props: any) {
                   releaseDate={movie.releaseDate}
                   poster={movie.poster}
                   description={movie.description}
+                  isFavorite={movie.isFavorite}
+                  category={movie.category}
                 />
             </Grid>
             ))}

@@ -38,7 +38,7 @@ export default function XepModal(props: any) {
             <Typography id="modal-modal-title" variant="h4" component="h2">
               {movie.title}
             </Typography>
-            <Button variant="text" onClick={handleOnAddToFavorites}>Agregar a favoritos</Button>
+            <Button variant="text" onClick={handleOnAddToFavorites}>{movie.isFavorite ? 'Remover de favoritos' : 'Agregar a favoritos'}</Button>
             <Typography id="modal-modal-description" sx={{ mt: 2 }} color="text.secondary" variant="body2">
               {movie.description}
             </Typography>

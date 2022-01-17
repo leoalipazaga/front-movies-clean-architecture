@@ -2,15 +2,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import img from '../../../../assets/img/hero.png'
-import { fetchMovies } from '../store';
-import { getMoviesByCategory } from '../../../../domain/usecases';
+import { fetchMovies } from '../../../../features/movies/data';
 
 export function useMoviesViewController() {
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMovies(getMoviesByCategory));
+    dispatch(fetchMovies());
   }, [dispatch]);
 
   const favoritesMovies = useSelector((state: any) => state.movies.favorites);

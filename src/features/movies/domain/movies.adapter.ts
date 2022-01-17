@@ -1,5 +1,7 @@
+import { MovieEntity } from './movie.entity';
+
 export const moviesAdapter = {
-  adapt(movie: MovieHttp): MovieModel {
+  adapt(movie: MovieHttp): Omit<MovieEntity, 'category' | 'isFavorite'> {
     return {
       title: movie.title,
       releaseDate: movie.release_date,
@@ -10,18 +12,14 @@ export const moviesAdapter = {
   }
 }
 
+export function mapMovieByCategory(category: string): (m: MovieHttp) => MovieEntity {
+  return (movie: MovieHttp) => ({ ...moviesAdapter.adapt(movie), category, isFavorite: false });
+}
+
 interface MovieHttp {
   title: string,
   release_date: string,
   poster_path: string,
   overview: string,
   id: number,
-}
-
-interface MovieModel {
-  title: string,
-  releaseDate: string,
-  poster: string,
-  description: string,
-  id: number
 }

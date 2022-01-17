@@ -1,14 +1,22 @@
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
-import { signinFlow } from '../store';
+import { userSignin } from '../../../../features/user/data';
 
 
 export function useSigninViewController() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const isAuth = useSelector((state: any) => state.user.isAuthenticated);
+    const notification = useSelector((state: any) => state.notification);
+    const error = notification.length ? notification[0] : '';
+
+    if(isAuth) {
+        navigate('/', { replace: true });
+    }
 
     const initialFormikValues = {
         email: '',
@@ -27,12 +35,7 @@ export function useSigninViewController() {
     });
 
     function handleSubmit(e: any) {
-        const signin = signinFlow(e, {
-            onSucess: () => {
-                navigate('/', { replace: true });
-            }
-        });
-        dispatch(signin);
+        dispatch(userSignin(e));
     }
 
     function goToSignup() {
@@ -41,6 +44,7 @@ export function useSigninViewController() {
 
     return {
         formik,
-        goToSignup
+        goToSignup,
+        error
     }
 }

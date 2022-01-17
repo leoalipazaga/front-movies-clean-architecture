@@ -10,14 +10,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { XepButton } from '../../components';
 import { useSigninViewController } from './controller';
 
-// import { XepAlert } from '../../../presentation/components';
+import { XepAlert } from '../../../presentation/components';
 
 export default function Signin() {
   const theme = createTheme();
-  const { formik, goToSignup } = useSigninViewController();
+  const { formik, error, goToSignup } = useSigninViewController();
 
   return (<ThemeProvider theme={theme}>
-    {/* {error && <XepAlert type={'error'} message={error.errorMessage} />} */}
+    {error && <XepAlert type={'error'} message={error} /> }
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box

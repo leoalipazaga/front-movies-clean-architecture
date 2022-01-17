@@ -14,10 +14,10 @@ This project was bootstrapped with:
 - React Material UI Carousel
 
 ## Project structure
-- Domain: Holds two folders `adapter` and `usecases`. The `adapter` maps data from API to UI. The `usecases` is where the business rules are applied and implemented.
-- Infrastructure: This folder is for persisting data.
-- Main: Config dependencies are managed from here.
-- Presentation: `component`, `pages`, `hooks`, etc.
+- `infrastructure`: this folder is for persisting data.
+- `main`: constants, generic actions (eg. `api`, `notification`, `loader`, etc) are managed from here.
+- `presentation`: it holds views, controllers (could be hooks) and shared components.
+- `features`: it holds features as `user` and `movies`. For each feature, we need these following folders `domain`, `usecases` and `data` (could be optional).
 
 ## Available Scripts
 

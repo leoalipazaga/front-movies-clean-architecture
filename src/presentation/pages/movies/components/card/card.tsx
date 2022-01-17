@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 import { BASE_IMG_URL } from '../../../../../main/constants';
-import { moviesActions } from '../../store';
+import { addFavorite, removeFavorite } from '../../../../../features/movies/data/movies.actions';
 import { XepModal } from '..';
 import styles from './card.module.css';
 
@@ -23,7 +23,7 @@ export default function XepCard(props: any) {
 	}
 
 	function handleFavorite() {
-		dispatch(moviesActions.addFavorite(props));
+		props.isFavorite ? dispatch(removeFavorite({ movie: props })) : dispatch(addFavorite({ movie: props }));
 		closeModal();
 	}
 
@@ -55,7 +55,7 @@ export default function XepCard(props: any) {
 					</Typography>
 				</CardContent>
 			</Card>
-			<XepModal handleClose={closeModal} handleFavorite={handleFavorite} open={isOpenModal} movie={{ title: props.title, poster: `${BASE_IMG_URL}${props.poster}`, description: props.description }}></XepModal>
+			<XepModal handleClose={closeModal} handleFavorite={handleFavorite} open={isOpenModal} movie={{ title: props.title, poster: `${BASE_IMG_URL}${props.poster}`, description: props.description, isFavorite: props.isFavorite }}></XepModal>
 		</>
 	);
 }

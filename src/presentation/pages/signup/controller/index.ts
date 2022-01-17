@@ -1,11 +1,13 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 
-import { addAccount } from '../../../../domain/usecases';
+import { userSignup } from '../../../../features/user/data';
 
 export function useSignupViewController() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const initialFormikValues = {
         email: '',
@@ -26,7 +28,8 @@ export function useSignupViewController() {
     });
 
     function handleSubmit(e: any) {
-        addAccount(e);
+        dispatch(userSignup(e));
+        goToSignin();
     }
 
     function goToSignin() {
