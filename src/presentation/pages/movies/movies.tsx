@@ -1,11 +1,18 @@
 import Grid from '@mui/material/Grid';
 
+import { useMoviesStoreImpl } from "../../../features/movies/data";
 import { XepCarousel, XepHero } from './components';
 import { useMoviesViewController } from './controller';
 
 export default function Movies() {
-  const { favoritesMovies, upcomingMovies, popularMovies, topRatedMovies, img } = useMoviesViewController();
-
+  const {
+    favoritesMovies,
+    upcomingMovies,
+    popularMovies,
+    topRatedMovies,
+    img
+  } = useMoviesViewController(useMoviesStoreImpl());
+  
   return (
     <>
       <XepHero src={img}></XepHero>

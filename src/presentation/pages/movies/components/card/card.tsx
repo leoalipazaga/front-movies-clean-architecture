@@ -2,44 +2,24 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 
 import { BASE_IMG_URL } from '../../../../../main/constants';
-import { addFavorite, removeFavorite } from '../../../../../features/movies/data/movies.actions';
+import { useMoviesStoreImpl } from "../../../../../features/movies/data";
 import { XepModal } from '..';
+import { useCard } from './card.hooks';
 import styles from './card.module.css';
 
 export default function XepCard(props: any) {
-	const [isOpenModal, setIsOpenModal] = useState(false);
-	const dispatch = useDispatch();
-
-	function openModal() {
-		setIsOpenModal(true);
-	};
-
-	function closeModal() {
-		setIsOpenModal(false);
-	}
-
-	function handleFavorite() {
-		props.isFavorite ? dispatch(removeFavorite({ movie: props })) : dispatch(addFavorite({ movie: props }));
-		closeModal();
-	}
-
-	function _formatDateEs(date: string) {
-		const newDate = new Date(date.replace('-', '/'));
-
-		return newDate.toLocaleDateString('es-pe', {
-			day: 'numeric',
-			month: 'short',
-			year: 'numeric'
-		});
-	}
+	const {
+		openModal,
+        handleFavorite,
+        isOpenModal,
+		closeModal
+	} = useCard(useMoviesStoreImpl());
 
 	return (
 		<>
-			<Card sx={{ maxWidth: 188 }} onClick={openModal} className={styles.card}>
+			<Card sx={{ maxWidth: 188 }} onClick={openModal.bind(null, props)} className={styles.card}>
 				<CardMedia
 					component="img"
 					height="282"
@@ -51,7 +31,7 @@ export default function XepCard(props: any) {
 						{props.title}
 					</Typography>
 					<Typography variant="caption" color="text.secondary">
-						{_formatDateEs(props.releaseDate)}
+						{ props.releaseDate }
 					</Typography>
 				</CardContent>
 			</Card>

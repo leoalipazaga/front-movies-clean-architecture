@@ -1,27 +1,25 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useEffect } from 'react';
 
-import img from '../../../../assets/img/hero.png'
-import { fetchMovies } from '../../../../features/movies/data';
+import { MoviesStore } from '../../../../features/movies/repository';
+import { loadMoviesUseCase } from '../../../../features/movies/usecase';
+import img from '../../../../assets/img/hero.png';
 
-export function useMoviesViewController() {
-
-  const dispatch = useDispatch();
+export function useMoviesViewController(store: MoviesStore) {
+  const loadMovies = useCallback(() => {
+    loadMoviesUseCase({ loadMovies: store.loadMovies });
+  }, [store.loadMovies]);
 
   useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
-
-  const favoritesMovies = useSelector((state: any) => state.movies.favorites);
-  const upcomingMovies = useSelector((state: any) => state.movies.upcoming);
-  const popularMovies = useSelector((state: any) => state.movies.popular);
-  const topRatedMovies = useSelector((state: any) => state.movies.top_rated);
+    loadMovies();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
-    favoritesMovies,
-    upcomingMovies,
-    popularMovies,
-    topRatedMovies,
+    favoritesMovies: store.favorites,
+    upcomingMovies: store.upcoming,
+    popularMovies: store.popular,
+    topRatedMovies: store.top_rated,
+    loadMovies,
     img
-  };
+  }
 }

@@ -20,6 +20,11 @@ export const setMovies = createAction(`${MOVIE_FEATURE} SET`, ({ query }) => ({
     payload: query
 }));
 
+export const selectMovie = createAction(`${MOVIE_FEATURE} SELECT`, ({ movie }) => ({
+    type: `${MOVIE_FEATURE} SELECT`,
+    payload: movie
+}));
+
 export const addFavorite = createAction(`${MOVIE_FEATURE} ADD FAVORITE`, ({ movie }) => ({
     type: `${MOVIE_FEATURE} ADD FAVORITE`,
     payload: movie

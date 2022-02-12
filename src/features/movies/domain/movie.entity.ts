@@ -7,3 +7,11 @@ export interface MovieEntity {
     isFavorite: boolean;
     id: number;
 }
+
+export interface MoviesEntity {
+    favorites: MovieEntity[];
+    top_rated: MovieEntity[];
+    upcoming: MovieEntity[];
+    popular: MovieEntity[];
+    selectedMovie: MovieEntity;
+}

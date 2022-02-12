@@ -1,13 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { AnyAction } from 'redux';
 
-import { addFavorite, removeFavorite, setMovies } from './movies.actions';
+import { addFavorite, removeFavorite, setMovies, selectMovie } from './movies.actions';
 
 export const initialState = {
   favorites: [],
   top_rated: [],
   upcoming: [],
-  popular: []
+  popular: [],
+  selectedMovie: null
 };
 
 export const reducer = createReducer(initialState, builder => {
@@ -21,7 +22,7 @@ export const reducer = createReducer(initialState, builder => {
         favorites: state.favorites.concat({ ...action.payload, isFavorite: !action.payload.isFavorite }),
         [action.payload.category]: state[action.payload.category].map((movie: any) =>
           movie.id === action.payload.id
-            ? { ...movie, isFavorite: !movie.isFavorite }
+            ? toggleFavorite(movie)
             : movie
         )
       };
@@ -32,10 +33,17 @@ export const reducer = createReducer(initialState, builder => {
         favorites: state.favorites.filter((movie: any) => movie.id !== action.payload.id),
         [action.payload.category]: state[action.payload.category].map((movie: any) => 
           movie.id === action.payload.id
-            ? { ...movie, isFavorite: !movie.isFavorite }
+            ? toggleFavorite(movie)
             : movie
         )
       };
     })
+    .addCase(selectMovie.type, (state: any, action: AnyAction) => {
+      return { ...state, selectedMovie: action.payload };
+    })
     .addDefaultCase((state) => state)
 })
+
+function toggleFavorite(movie: any) {
+  return { ...movie, isFavorite: !movie.isFavorite };
+}
